@@ -10,8 +10,29 @@ fun totalScore(): Int {
     return lines.filter { s -> s.isNotEmpty() }.map{ s -> roundScore(s[0], s[2])}.sum()
 }
 
+fun resultScore(opponent: Char, self: Char): Int {
+    return if (
+        (opponent == 'A' && self == 'X')
+        || (opponent == 'B' && self == 'Y')
+        || (opponent == 'C' && self == 'Z')
+    ) {
+        // Tie
+        3
+    } else if (
+        (opponent == 'A' && self == 'Y')
+        || (opponent == 'B' && self == 'Z')
+        || (opponent == 'C' && self == 'X')
+    ) {
+        // We wont!
+        6
+    } else {
+        // We lost :'(
+        0
+    }
+}
+
 /**
- * Determine the score for a single round
+ * Determine the score for a single round - combines pick score and result score
  */
 fun roundScore(opponent: Char, self: Char): Int {
     val pickScore = when(self) {
@@ -20,8 +41,6 @@ fun roundScore(opponent: Char, self: Char): Int {
         'Z' -> 3
         else -> 0
     }
-    val resultScore = 0
-    // TODO
-
+    val resultScore = resultScore(opponent, self)
     return pickScore + resultScore
 }
