@@ -9,7 +9,12 @@ enum class Move {
     ROCK, PAPER, SCISSORS
 }
 
+enum class Outcome {
+    LOSE, DRAW, WIN
+}
+
 /**
+ * Interprets first col as move, second col as move
  * Converts EG "A Y" -> (Rock, Paper)
  */
 fun translatePart1(row: String): Pair<Move, Move> {
@@ -28,12 +33,57 @@ fun translatePart1(row: String): Pair<Move, Move> {
     return Pair(opponent, self)
 }
 
+/**
+ * Interprets first col as move, second col as outcome
+ * Still returns move.
+ * Converts EG "A Y" -> (Rock, Paper)
+ */
+fun translatePart2(row: String): Pair<Move, Move> {
+    val moveMap = mapOf( // Map of opponent move -> desired outcome -> your move
+        Move.ROCK to mapOf(
+            Outcome.LOSE to Move.SCISSORS,
+            Outcome.DRAW to Move.ROCK,
+            Outcome.WIN to Move.PAPER),
+        Move.PAPER to mapOf(
+            Outcome.LOSE to Move.ROCK,
+            Outcome.DRAW to Move.PAPER,
+            Outcome.WIN to Move.SCISSORS),
+        Move.SCISSORS to mapOf(
+            Outcome.LOSE to Move.PAPER,
+            Outcome.DRAW to Move.SCISSORS,
+            Outcome.WIN to Move.ROCK)
+    )
 
-fun totalScore(): Int {
+    val opponent = when(row[0]) {
+        'A' -> Move.ROCK
+        'B' -> Move.PAPER
+        'C' -> Move.SCISSORS
+        else -> throw Exception("Bad opponent move code ${row[0]}")
+    }
+    val outcome = when(row[2]) {
+        'X' -> Outcome.LOSE
+        'Y' -> Outcome.DRAW
+        'Z' -> Outcome.WIN
+        else -> throw Exception("Bad self move code ${row[2]}")
+    }
+    return Pair(opponent, moveMap[opponent]!![outcome]!!)
+}
+
+
+fun totalScorePart1(): Int {
     val lines: List<String> = loadResource("day2-input").split("\n")
     return lines
         .filter { line -> line.isNotEmpty() }
         .map { line -> translatePart1(line) }
+        .map{ moves -> roundScore(moves.first, moves.second) }
+        .sum()
+}
+
+fun totalScorePart2(): Int {
+    val lines: List<String> = loadResource("day2-input").split("\n")
+    return lines
+        .filter { line -> line.isNotEmpty() }
+        .map { line -> translatePart2(line) }
         .map{ moves -> roundScore(moves.first, moves.second) }
         .sum()
 }

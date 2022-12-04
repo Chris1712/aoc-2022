@@ -10,5 +10,7 @@ fun main() {
 
 
     println("Day 2 part 1 solution:")
-    println(totalScore()) // 8890
+    println(totalScorePart1()) // 8890
+    println("Day 2 part 2 solution:")
+    println(totalScorePart2()) // 10238
 }
