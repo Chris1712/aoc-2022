@@ -5,42 +5,64 @@ package aoc
 // Result: 0 lose, 3 draw, 6 win
 // Rock: A/X Paper: B/Y, Scissors: C/Z
 
-fun totalScore(): Int {
-    val lines: List<String> = loadResource("day2-input").split("\n")
-    return lines.filter { s -> s.isNotEmpty() }.map{ s -> roundScore(s[0], s[2])}.sum()
+enum class Move {
+    ROCK, PAPER, SCISSORS
 }
 
-fun resultScore(opponent: Char, self: Char): Int {
-    return if (
-        (opponent == 'A' && self == 'X')
-        || (opponent == 'B' && self == 'Y')
-        || (opponent == 'C' && self == 'Z')
-    ) {
-        // Tie
-        3
+/**
+ * Converts EG "A Y" -> (Rock, Paper)
+ */
+fun translatePart1(row: String): Pair<Move, Move> {
+    val opponent = when(row[0]) {
+        'A' -> Move.ROCK
+        'B' -> Move.PAPER
+        'C' -> Move.SCISSORS
+        else -> throw Exception("Bad opponent move code ${row[0]}")
+    }
+    val self = when(row[2]) {
+        'X' -> Move.ROCK
+        'Y' -> Move.PAPER
+        'Z' -> Move.SCISSORS
+        else -> throw Exception("Bad self move code ${row[2]}")
+    }
+    return Pair(opponent, self)
+}
+
+
+fun totalScore(): Int {
+    val lines: List<String> = loadResource("day2-input").split("\n")
+    return lines
+        .filter { line -> line.isNotEmpty() }
+        .map { line -> translatePart1(line) }
+        .map{ moves -> roundScore(moves.first, moves.second) }
+        .sum()
+}
+
+/**
+ * Determine the points scored for winning/losing/drawing
+ */
+fun victoryScore(opponent: Move, self: Move): Int {
+    return if (opponent == self) {
+        3 // Tie
     } else if (
-        (opponent == 'A' && self == 'Y')
-        || (opponent == 'B' && self == 'Z')
-        || (opponent == 'C' && self == 'X')
+        (opponent == Move.ROCK && self == Move.PAPER)
+        || (opponent == Move.PAPER && self == Move.SCISSORS)
+        || (opponent == Move.SCISSORS && self == Move.ROCK)
     ) {
-        // We wont!
-        6
+        6 // We wont!
     } else {
-        // We lost :'(
-        0
+        0 // We lost :'(
     }
 }
 
 /**
- * Determine the score for a single round - combines pick score and result score
+ * Determine the score for a single round - combines pick score and victory score
  */
-fun roundScore(opponent: Char, self: Char): Int {
+fun roundScore(opponent: Move, self: Move): Int {
     val pickScore = when(self) {
-        'X' -> 1
-        'Y' -> 2
-        'Z' -> 3
-        else -> 0
+        Move.ROCK -> 1
+        Move.PAPER -> 2
+        Move.SCISSORS -> 3
     }
-    val resultScore = resultScore(opponent, self)
-    return pickScore + resultScore
+    return pickScore + victoryScore(opponent, self)
 }

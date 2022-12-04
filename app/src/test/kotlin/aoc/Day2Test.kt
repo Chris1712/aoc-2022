@@ -5,27 +5,27 @@ import kotlin.test.assertEquals
 
 class Day2Test {
 
-    @Test fun singleResultWin() {
-        assertEquals(6, resultScore('A', 'Y'))
+    @Test fun  victoryScore_win() {
+        assertEquals(6, victoryScore(Move.ROCK, Move.PAPER))
     }
 
-    @Test fun singleResultTie() {
-        assertEquals(3, resultScore('A', 'X'))
+    @Test fun victoryScore_tie() {
+        assertEquals(3, victoryScore(Move.ROCK, Move.ROCK))
     }
 
-    @Test fun singleResultLoss() {
-        assertEquals(0, resultScore('B', 'A'))
+    @Test fun victoryScore_loss() {
+        assertEquals(0, victoryScore(Move.PAPER, Move.ROCK))
     }
 
     @Test fun roundScore1() {
-        assertEquals(8, roundScore('A', 'Y'))
+        assertEquals(8, roundScore(Move.ROCK, Move.PAPER))
     }
 
     @Test fun roundScore2() {
-        assertEquals(1, roundScore('B', 'X'))
+        assertEquals(1, roundScore(Move.PAPER, Move.ROCK))
     }
 
     @Test fun roundScore3() {
-        assertEquals(6, roundScore('C', 'Z'))
+        assertEquals(6, roundScore(Move.SCISSORS, Move.SCISSORS))
     }
 }
