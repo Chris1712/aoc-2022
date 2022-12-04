@@ -21,4 +21,6 @@ fun main() {
 
     println("Day 4 part 1 solution:")
     println(day4Part1()) // 444
+     println("Day 4 part 2 solution:")
+    println(day4Part2()) // 801
 }
