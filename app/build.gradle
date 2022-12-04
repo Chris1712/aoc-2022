@@ -8,7 +8,7 @@
 
 plugins {
     // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
-    id 'org.jetbrains.kotlin.jvm' version '1.4.20'
+    id 'org.jetbrains.kotlin.jvm' version '1.7.20'
 
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
@@ -22,9 +22,6 @@ repositories {
 dependencies {
     // Align versions of all Kotlin components
     implementation platform('org.jetbrains.kotlin:kotlin-bom')
-
-    // Use the Kotlin JDK 8 standard library.
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:29.0-jre'
