@@ -5,7 +5,7 @@ import kotlin.test.assertEquals
 
 class Day2Test {
 
-    @Test fun  victoryScore_win() {
+    @Test fun victoryScore_win() {
         assertEquals(6, victoryScore(Move.ROCK, Move.PAPER))
     }
 
