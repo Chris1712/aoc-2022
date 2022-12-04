@@ -1,7 +1,5 @@
 package aoc
 
-import java.lang.Integer.max
-
 /**
  * Return the largest number of calories held by any single elf
  */
@@ -23,7 +21,7 @@ fun mostCalsTopN(n: Int): List<Int> {
     // Get list of food item calorie values. Double line break indicates a different elf
     val lines: List<String> = loadResource("day1-input").split("\n")
 
-    var elfHeldCals: Int = 0
+    var elfHeldCals = 0
     var topHeldCals: List<Int> = List(n) {0} // Ordered list to hold n highest values
     for (i in lines.indices) {
         if (lines[i] == "") {
