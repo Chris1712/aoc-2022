@@ -1,5 +1,7 @@
 package aoc
 
 fun loadResource(path: String): String {
-    return Thread.currentThread().contextClassLoader.getResource(path).readText()
+    val resource = Thread.currentThread().contextClassLoader.getResource(path)
+    requireNotNull(resource) { "Resource $path not found" }
+    return resource.readText()
 }
