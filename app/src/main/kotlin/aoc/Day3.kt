@@ -40,8 +40,6 @@ fun day3Part2(): Int {
 
 fun sumScoresForCommon(elfPacks: List<String>): Int {
     val numGroups = elfPacks.size / 3
-    println("elfpacks size ${elfPacks.size}")
-    println("numgroups $numGroups")
     var totalPrio = 0;
     for (i in 0 until numGroups) {
         val startIndex = 3 * i
