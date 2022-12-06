@@ -28,4 +28,9 @@ fun main() {
     println(day5Part1()) // NTWZZWHFV
      println("Day 5 part 2 solution:")
     println(day5Part2()) // BRZGFVBTJ
+
+    println("Day 6 part 1 solution:")
+    println(day6Part1()) // 1531
+     println("Day 6 part 2 solution:")
+//    println(day6Part2()) //
 }
