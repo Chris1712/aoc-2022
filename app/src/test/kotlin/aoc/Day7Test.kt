@@ -38,6 +38,8 @@ class Day7Test {
         assertEquals(94853, result["a"])
         assertEquals(24933642, result["d"])
         assertEquals(48381165, result["/"])
+
+        assertEquals(95437, result.values.filter { it <= 100000 }.sum())
     }
 
 }

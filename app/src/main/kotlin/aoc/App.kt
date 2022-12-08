@@ -35,7 +35,7 @@ fun main() {
     println(day6Part2()) // 2518
 
     println("Day 7 part 1 solution:")
-    println(day7Part1()) // NOT 1072909 idk
-//     println("Day 7 part 2 solution:")
+    println(day7Part1()) // 1611443
+     println("Day 7 part 2 solution:")
 //    println(day7Part2()) //
 }
