@@ -6,6 +6,21 @@ fun day7Part1(): Int {
     return dirSizes.values.filter { it <= 100000 }.sum()
 }
 
+fun day7Part2(): Int {
+    val lines = loadResource("day7-input").split("\n").filter(String::isNotBlank)
+    val dirSizes = sumDirs(lines)
+
+    // We need to make unused space at least 30000000
+    val freeSpace = 70000000 - (dirSizes["//"] ?: 0)
+    val additionalFreeSpaceNeeded = 30000000 - freeSpace
+
+    return dirSizes
+        .filterValues { it >= additionalFreeSpaceNeeded }
+        .map { it.value }
+        .sorted()
+        .first()
+}
+
 /**
  * Return a map of directory names -> sizes
  * Assumes we don't list the same directory twice

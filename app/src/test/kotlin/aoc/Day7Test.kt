@@ -34,10 +34,10 @@ class Day7Test {
 
         val result = sumDirs(testData)
 
-        assertEquals(584, result["e"])
-        assertEquals(94853, result["a"])
-        assertEquals(24933642, result["d"])
-        assertEquals(48381165, result["/"])
+        assertEquals(584, result["//a/e/"])
+        assertEquals(94853, result["//a/"])
+        assertEquals(24933642, result["//d/"])
+        assertEquals(48381165, result["//"])
 
         assertEquals(95437, result.values.filter { it <= 100000 }.sum())
     }
