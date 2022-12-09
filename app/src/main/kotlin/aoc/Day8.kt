@@ -70,10 +70,8 @@ fun getTreeScenicScore(treeGrid: List<IntArray>, lineNo: Int, colNo: Int): Int {
 fun getScenicScoreInDirection(treeHeight: Int, trees: List<Int>): Int {
     println("treeHeight: $treeHeight, trees: $trees")
     return if (trees.all { it < treeHeight }) {
-        println("all trees are lower than treeHeight")
         trees.size
     } else {
-        println("not all trees are lower than treeHeight")
         trees.takeWhile { it < treeHeight }.count() + 1
     }
 }
