@@ -8,7 +8,6 @@ fun main() {
     println("Day 1 part 2 solution:")
     println(top3Sum())  // 204610
 
-
     println("Day 2 part 1 solution:")
     println(totalScorePart1()) // 8890
     println("Day 2 part 2 solution:")
@@ -38,4 +37,9 @@ fun main() {
     println(day7Part1()) // 1611443
     println("Day 7 part 2 solution:")
     println(day7Part2()) // 2086088
+
+    println("Day 8 part 1 solution:")
+    println(day8Part1()) // 1717
+    println("Day 8 part 2 solution:")
+    println(day8Part2()) // 321975
 }
