@@ -1,4 +1,6 @@
-package aoc
+package aoc.day6
+
+import aoc.util.loadResource
 
 fun day6Part1(): Int {
     val line = loadResource("day6-input").split("\n")[0]

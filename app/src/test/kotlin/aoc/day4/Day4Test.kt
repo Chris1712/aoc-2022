@@ -1,4 +1,4 @@
-package aoc
+package aoc.day4
 
 import kotlin.test.Test
 import kotlin.test.assertTrue

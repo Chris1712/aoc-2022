@@ -1,4 +1,6 @@
-package aoc
+package aoc.day5
+
+import aoc.util.loadResource
 
 data class CrateMove(val count: Int, val from: Int, val to: Int)
 

@@ -1,4 +1,6 @@
-package aoc
+package aoc.day7
+
+import aoc.util.loadResource
 
 fun day7Part1(): Int {
     val lines = loadResource("day7-input").split("\n").filter(String::isNotBlank)

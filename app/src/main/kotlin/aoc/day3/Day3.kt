@@ -1,5 +1,6 @@
-package aoc
+package aoc.day3
 
+import aoc.util.loadResource
 
 
 // Each row is a list of items in a rucksack, first half compartment one, second half compartment 2

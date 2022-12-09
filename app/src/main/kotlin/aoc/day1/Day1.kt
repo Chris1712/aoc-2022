@@ -1,16 +1,18 @@
-package aoc
+package aoc.day1
+
+import aoc.util.loadResource
 
 /**
  * Return the largest number of calories held by any single elf
  */
-fun mostCals(): Int {
+fun part1(): Int {
     return mostCalsTopN(1)[0]
 }
 
 /**
  * Return the total calories held by the top 3 highest calorie-holding elves
  */
-fun top3Sum(): Int {
+fun part2(): Int {
     return mostCalsTopN(3).sum()
 }
 

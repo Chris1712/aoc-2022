@@ -1,4 +1,6 @@
-package aoc
+package aoc.day4
+
+import aoc.util.loadResource
 
 fun day4Part1(): Int {
     return loadResource("day4-input")

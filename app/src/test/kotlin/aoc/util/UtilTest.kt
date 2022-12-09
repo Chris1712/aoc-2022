@@ -1,4 +1,4 @@
-package aoc
+package aoc.util
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

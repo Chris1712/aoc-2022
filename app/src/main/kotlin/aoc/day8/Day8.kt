@@ -1,4 +1,6 @@
-package aoc
+package aoc.day8
+
+import aoc.util.loadResource
 
 fun day8Part1(): Int {
     val lines = loadResource("day8-input").split("\n").filter(String::isNotBlank)
@@ -68,7 +70,6 @@ fun getTreeScenicScore(treeGrid: List<IntArray>, lineNo: Int, colNo: Int): Int {
 }
 
 fun getScenicScoreInDirection(treeHeight: Int, trees: List<Int>): Int {
-    println("treeHeight: $treeHeight, trees: $trees")
     return if (trees.all { it < treeHeight }) {
         trees.size
     } else {

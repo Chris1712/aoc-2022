@@ -1,4 +1,6 @@
-package aoc
+package aoc.day2
+
+import aoc.util.loadResource
 
 // Scoring
 // Pick: 1 rock, 2 paper, 3 scissors
@@ -70,7 +72,7 @@ fun translatePart2(row: String): Pair<Move, Move> {
 }
 
 
-fun totalScorePart1(): Int {
+fun day2Part1(): Int {
     val lines: List<String> = loadResource("day2-input").split("\n")
     return lines
         .filter { line -> line.isNotEmpty() }
@@ -79,7 +81,7 @@ fun totalScorePart1(): Int {
         .sum()
 }
 
-fun totalScorePart2(): Int {
+fun day2Part2(): Int {
     val lines: List<String> = loadResource("day2-input").split("\n")
     return lines
         .filter { line -> line.isNotEmpty() }

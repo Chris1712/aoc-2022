@@ -1,4 +1,4 @@
-package aoc
+package aoc.util
 
 fun loadResource(path: String): String {
     val resource = Thread.currentThread().contextClassLoader.getResource(path)
