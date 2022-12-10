@@ -1,50 +1,58 @@
 package aoc.day10
 
 import aoc.util.loadResource
+import kotlin.math.abs
 
 fun day10Part1(): Int {
     val lines = loadResource("day10-input").split("\n").filter(String::isNotBlank)
     val cycles = listOf(20,60,100,140,180,220)
-    return getCycleValSum(lines, cycles)
+    return multiplyRegisterVals(lines, cycles)
+}
+
+fun day10Part2() {
+    val lines = loadResource("day10-input").split("\n").filter(String::isNotBlank)
+    val screenLines = printPixels(registerValsToPixels(getRegisterVals(lines)))
+    println(screenLines.joinToString("\n"))
+}
+
+fun multiplyRegisterVals(lines: List<String>, cycles: List<Int>): Int {
+    val cycleValues = getRegisterVals(lines)
+    return cycles.map{ it * cycleValues[it-1] }.sum()
 }
 
 /**
- * Returns the sum of the values of the register during the given cycles.
+ * Returns list of register values at the beginning of each cycle
  */
-fun getCycleValSum(lines: List<String>, cycles: List<Int>): Int {
-    val deque = ArrayDeque(lines)
+fun getRegisterVals(lines: List<String>): List<Int> {
+    val instructions = ArrayDeque(lines)
 
     var cycle = 1 // Current cycle, 1-indexed
-    var wait = getOpWait(deque.first()) // delay before applying op
-    var registerSum = 0;
+    var wait = getOpWait(instructions.first()) // delay before applying op
     var registerVal = 1
+    var registerValHistory = mutableListOf<Int>()
 
 
     while (wait > 0) {
-        println("Start of cycle $cycle, registerVal = $registerVal, wait = $wait, next op = ${deque.first()}")
-        if (cycles.contains(cycle)) {
-            registerSum += (registerVal * cycle)
-        }
+        println("Start of cycle $cycle, registerVal = $registerVal, wait = $wait, next op = ${instructions.first()}")
+        registerValHistory.add(registerVal)
 
-        // End of cycle. Apply instruction
+        // End of cycle. Apply instruction if we're ready
         if (wait == 1) {
-            // apply op
-            val op = deque.removeFirst().split(" ")
+            val op = instructions.removeFirst().split(" ")
             println("Applying op $op")
             if (op[0] == "addx") {
                 registerVal += op[1].toInt()
             }
 
             // set up next op
-            wait =  getOpWait(deque.firstOrNull())
+            wait =  getOpWait(instructions.firstOrNull())
         } else {
             wait--
         }
-        println("After cycle $cycle, registerVal = $registerVal, wait = $wait, next op = ${deque.firstOrNull()}")
         cycle++
     }
 
-    return registerSum
+    return registerValHistory
 }
 
 fun getOpWait(op: String?): Int {
@@ -59,4 +67,23 @@ fun getOpWait(op: String?): Int {
     }
 }
 
+fun registerValsToPixels(registerVals: List<Int>): List<Boolean> {
+    val pixels = mutableListOf<Boolean>()
 
+    for (i in 0 until registerVals.size) {
+        val position = i % 40
+
+        pixels.add(abs(registerVals[i] - position) <= 1)
+    }
+    return pixels
+}
+
+fun printPixels(pixels: List<Boolean> ): List<String> {
+    val width = 40
+    val rowList = mutableListOf<String>()
+    for (i in 0 until pixels.size step width) {
+        val row = pixels.subList(i, i + width)
+        rowList.add((row.map { if (it) "#" else "." }.joinToString("")))
+    }
+    return rowList
+}
