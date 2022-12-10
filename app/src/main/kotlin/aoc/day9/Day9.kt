@@ -17,8 +17,9 @@ fun day9Part2(): Int {
 
 fun countNthTailPositions(lines: List<String>, ropeLength: Int): Int {
     var headPos = Coord(0, 0)
-    var tailPos = Coord(0, 0)
-    val tailPositions = mutableSetOf<Coord>(tailPos)
+    val tailPos = MutableList(ropeLength) { Coord(0, 0) }
+
+    val endPositionsHistory = mutableSetOf<Coord>(tailPos.last())
 
     for (line in lines) {
         val (direction, distance) = line.split(" ")
@@ -26,12 +27,15 @@ fun countNthTailPositions(lines: List<String>, ropeLength: Int): Int {
 
         repeat (distanceInt) {
             headPos = moveHead(headPos, direction)
-            tailPos = moveTail(headPos, tailPos)
-            tailPositions.add(tailPos)
+            tailPos[0] = moveTail(headPos, tailPos[0])
+            for (i in 1 until ropeLength) {
+                tailPos[i] = moveTail(tailPos[i-1], tailPos[i])
+            }
+            endPositionsHistory.add(tailPos.last())
         }
     }
 
-    return tailPositions.size
+    return endPositionsHistory.size
 }
 
 fun moveTail(headPos: Coord, tailPos: Coord): Coord {

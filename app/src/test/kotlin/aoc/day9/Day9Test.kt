@@ -33,6 +33,4 @@ class Day9Test {
 
         assertEquals(36, countNthTailPositions(testData, 9))
     }
-
-
 }
