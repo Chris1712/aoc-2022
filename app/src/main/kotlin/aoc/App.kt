@@ -2,6 +2,7 @@ package aoc
 
 import aoc.day1.part1
 import aoc.day1.part2
+import aoc.day10.day10Part1
 import aoc.day2.day2Part1
 import aoc.day2.day2Part2
 import aoc.day3.day3Part1
@@ -66,4 +67,9 @@ fun main() {
     println(day9Part1()) // 6391
     println("Day 9 part 2 solution:")
     println(day9Part2()) // 2593
+
+    println("Day 10 part 1 solution:")
+    println(day10Part1()) //
+    println("Day 10 part 2 solution:")
+//    println(day10Part2()) //
 }
