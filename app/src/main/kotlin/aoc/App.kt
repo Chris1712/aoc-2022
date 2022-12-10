@@ -17,6 +17,7 @@ import aoc.day7.day7Part2
 import aoc.day8.day8Part1
 import aoc.day8.day8Part2
 import aoc.day9.day9Part1
+import aoc.day9.day9Part2
 
 fun main() {
     println("AoC 2022:")
@@ -62,7 +63,7 @@ fun main() {
     println(day8Part2()) // 321975
 
     println("Day 9 part 1 solution:")
-    println(day9Part1()) //
+    println(day9Part1()) // 6391
     println("Day 9 part 2 solution:")
-//    println(day8Part2()) //
+    println(day9Part2()) //
 }

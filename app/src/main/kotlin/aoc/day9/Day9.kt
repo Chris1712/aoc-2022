@@ -1,16 +1,21 @@
 package aoc.day9
 
 import aoc.util.loadResource
-import java.lang.Math.abs
+import kotlin.math.abs
 
 data class Coord(val x: Int, val y: Int)
 
 fun day9Part1(): Int {
     val lines = loadResource("day9-input").split("\n").filter(String::isNotBlank)
-    return countTailPositions(lines)
+    return countNthTailPositions(lines, 1)
 }
 
-fun countTailPositions(lines: List<String>): Int {
+fun day9Part2(): Int {
+    val lines = loadResource("day9-input").split("\n").filter(String::isNotBlank)
+    return countNthTailPositions(lines, 9)
+}
+
+fun countNthTailPositions(lines: List<String>, ropeLength: Int): Int {
     var headPos = Coord(0, 0)
     var tailPos = Coord(0, 0)
     val tailPositions = mutableSetOf<Coord>(tailPos)
@@ -20,45 +25,42 @@ fun countTailPositions(lines: List<String>): Int {
         val distanceInt = distance.toInt()
 
         repeat (distanceInt) {
-            val movedPair = moveHeadAndTail(headPos, tailPos, direction)
-            headPos = movedPair.first
-            tailPos = movedPair.second
+            headPos = moveHead(headPos, direction)
+            tailPos = moveTail(headPos, tailPos)
             tailPositions.add(tailPos)
-            println(movedPair)
         }
     }
 
     return tailPositions.size
 }
 
-fun moveHeadAndTail(headPos: Coord, tailPos: Coord, direction: String): Pair<Coord, Coord> {
-    val newHeadPos = move(headPos, direction)
-    val newTailPos: Coord
-
-    if ( abs(newHeadPos.x - tailPos.x) <= 1 && abs(newHeadPos.y - tailPos.y) <= 1) {
-        newTailPos = tailPos
-    } else {
-        // The head needs to move. If col or row is the same, move the tail in the same direction.
-        if (tailPos.x == newHeadPos.x || tailPos.y == newHeadPos.y) {
-            newTailPos = move(tailPos, direction)
+fun moveTail(headPos: Coord, tailPos: Coord): Coord {
+    if (abs(headPos.x - tailPos.x) <= 1 && abs(headPos.y - tailPos.y) <= 1) {
+        return tailPos // No movement needed
+    } else if (tailPos.x == headPos.x) {
+        // Same col, too far apart in y
+        return if (tailPos.y < headPos.y) {
+            Coord(tailPos.x, tailPos.y + 1)
         } else {
-            // The head needs to move, and the tail is diagonal. Move the tail towards the head.
-            newTailPos = when (direction) {
-                "U" -> move(newHeadPos, "D")
-                "D" -> move(newHeadPos, "U")
-                "L" -> move(newHeadPos, "R")
-                "R" -> move(newHeadPos, "L")
-                else -> throw Exception("Invalid direction: $direction")
-            }
+            Coord(tailPos.x, tailPos.y - 1)
         }
-
-
+    } else if (tailPos.y == headPos.y) {
+        // Same row, too far apart in x
+        return if (tailPos.x < headPos.x) {
+            Coord(tailPos.x + 1, tailPos.y)
+        } else {
+            Coord(tailPos.x - 1, tailPos.y)
+        }
+    } else {
+        // Diagonal, too far apart in both x and y
+        return Coord( // Move towards headPos in both x and y
+            if (tailPos.x < headPos.x) tailPos.x + 1 else tailPos.x - 1,
+            if (tailPos.y < headPos.y) tailPos.y + 1 else tailPos.y - 1
+        )
     }
-
-    return Pair(newHeadPos, newTailPos)
 }
 
-fun move(pos: Coord, direction: String): Coord {
+fun moveHead(pos: Coord, direction: String): Coord {
     return when (direction) {
         "U" -> Coord(pos.x, pos.y + 1)
         "D" -> Coord(pos.x, pos.y - 1)
