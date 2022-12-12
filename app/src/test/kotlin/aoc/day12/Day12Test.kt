@@ -71,4 +71,33 @@ class Day12Test {
         assertEquals(31, stepGrid[2][5]) // E
     }
 
+    @Test fun findPath_3() {
+        val input = listOf(
+            "Sabqponm",
+            "abcryxxl",
+            "accszExk",
+            "acctuvwj",
+            "abdefghi",
+        )
+
+        val stepGrid = findPath(input, 'E', ::canReachReverse)
+
+        assertEquals(0, stepGrid[2][5]) // Starting point
+        assertEquals(1, stepGrid[2][4]) // 1 step left
+        assertEquals(5, stepGrid[2][6]) // 5 steps around
+        assertEquals(31, stepGrid[0][0]) // S
+    }
+
+    @Test fun shortestReversePath() {
+        val input = listOf(
+            "Sabqponm",
+            "abcryxxl",
+            "accszExk",
+            "acctuvwj",
+            "abdefghi",
+        )
+
+        assertEquals(29, shortestReversePath(input))
+    }
+
 }

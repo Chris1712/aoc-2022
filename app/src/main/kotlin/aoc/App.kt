@@ -86,5 +86,5 @@ fun main() {
     println("Day 12 part 1 solution:")
     println(day12Part1()) // 490
     println("Day 12 part 2 solution:")
-    println(day12Part2()) //
+    println(day12Part2()) // 488
 }
