@@ -2,7 +2,6 @@ package aoc.day10
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 
 class Day10Test {
 
