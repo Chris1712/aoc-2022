@@ -25,4 +25,22 @@ class Day11Test {
         assertEquals(12, monkeys[1].operation(4)) // + 8
         assertEquals(100, monkeys[6].operation(10)) // old * old
     }
+
+    @Test fun monkeyRound() {
+        val lines = loadResource("day11-test-input").split("\n")
+        val monkeys = parseInput(lines)
+        round(monkeys)
+
+        assertEquals(listOf(20,23,27,26), monkeys[0].items)
+        assertEquals(listOf(2080,25,167,207,401,1046), monkeys[1].items)
+        assertTrue( monkeys[2].items.isEmpty())
+        assertTrue( monkeys[3].items.isEmpty())
+    }
+
+    @Test fun monkeyBusiness() {
+        val lines = loadResource("day11-test-input").split("\n")
+        val monkeys = parseInput(lines)
+
+        assertEquals(10605, getMonkeyBusiness(monkeys, 20))
+    }
 }

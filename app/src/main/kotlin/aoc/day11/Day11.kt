@@ -1,17 +1,27 @@
 package aoc.day11
 
-data class Monkey(val items: List<Int>,
+import aoc.util.loadResource
+
+data class Monkey(val items: MutableList<Int>,
                   val operation: (Int) -> Int,
                   val test: (Int) -> Boolean,
                   val trueDestination: Int,
-                  val falseDestination: Int)
+                  val falseDestination: Int,
+                  var inspectionCount: Int = 0)
+
+
+fun day11Part1(): Int {
+    val lines = loadResource("day11-input").split("\n")
+    val monkeys = parseInput(lines)
+    return getMonkeyBusiness(monkeys, 20)
+}
 
 
 fun parseInput(input: List<String>): List<Monkey> {
     val monkeys = mutableListOf<Monkey>()
     for (i in 0 until input.size step 7) {
         val itemsStr = Regex("""\s+Starting items: (.*)""").find(input[i+1])!!.destructured
-        val items = itemsStr.component1().split(", ").map(String::toInt)
+        val items = itemsStr.component1().split(", ").map(String::toInt).toMutableList()
 
         val (opStr, opNo) = Regex("""\s+Operation: new = old (.) (.+)""").find(input[i+2])!!.destructured
         println("monkey $i, opStr = $opStr, opNo = $opNo")
@@ -42,17 +52,41 @@ fun parseInput(input: List<String>): List<Monkey> {
 /**
  * Take turn of monkey with index int, returning a new list of monkeys resulting
  */
-fun monkeyTurn(monkeys: List<Monkey>, index: Int): List<Monkey> {
-    // todo
-    return emptyList()
+fun monkeyTurn(monkeys: List<Monkey>, index: Int) {
+    println("Monkey $index:")
+    for (i in monkeys[index].items.indices) {
+        val itemWorry = monkeys[index].items[i]
+        println("  Monkey inspects an item with a worry level of $itemWorry")
+        val newItemWorry = monkeys[index].operation(itemWorry) / 3
+        println("  Monkey performs operation on item, resulting in a worry level of $newItemWorry")
+        val testResult = monkeys[index].test(newItemWorry)
+        println("  Monkey tests item, resulting in a test result of $testResult")
+        val dest = if (monkeys[index].test(newItemWorry)) monkeys[index].trueDestination else monkeys[index].falseDestination
+        println("  Item with worry level $newItemWorry is thrown to monkey $dest")
+        monkeys[dest].items.add(newItemWorry)
+    }
+    monkeys[index].inspectionCount += monkeys[index].items.size
+    monkeys[index].items.clear()
 }
 
-fun round(monkeysInput: List<Monkey>): List<Monkey> {
+fun round(monkeysInput: List<Monkey>) {
     var monkeys = monkeysInput
-    // iterate through list
     for (i in monkeys.indices) {
-        // take turn
-        monkeys = monkeyTurn(monkeys, i)
+        monkeyTurn(monkeys, i)
     }
-    return monkeys
+}
+
+fun getMonkeyBusiness(monkeys: List<Monkey>, rounds: Int): Int {
+    // Play the rounds
+    repeat (rounds) {
+        round(monkeys)
+    }
+
+    println("After $rounds rounds:")
+    for (i in monkeys.indices) {
+        println("  Monkey $i has inspected ${monkeys[i].inspectionCount} items")
+    }
+    var maxTwo = monkeys.map { it.inspectionCount }.sorted().takeLast(2);
+    println("Two highest counts are $maxTwo")
+    return maxTwo[0] * maxTwo[1]
 }
