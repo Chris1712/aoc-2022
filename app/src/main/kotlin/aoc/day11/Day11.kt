@@ -13,7 +13,7 @@ data class Monkey(val items: MutableList<Int>,
 fun day11Part1(): Int {
     val lines = loadResource("day11-input").split("\n")
     val monkeys = parseInput(lines)
-    return getMonkeyBusiness(monkeys, 20)
+    return getMonkeyBusiness(monkeys, 20, 3)
 }
 
 
@@ -52,12 +52,12 @@ fun parseInput(input: List<String>): List<Monkey> {
 /**
  * Take turn of monkey with index int, returning a new list of monkeys resulting
  */
-fun monkeyTurn(monkeys: List<Monkey>, index: Int) {
+fun monkeyTurn(monkeys: List<Monkey>, index: Int, worryLevelReduction: Int) {
     println("Monkey $index:")
     for (i in monkeys[index].items.indices) {
         val itemWorry = monkeys[index].items[i]
         println("  Monkey inspects an item with a worry level of $itemWorry")
-        val newItemWorry = monkeys[index].operation(itemWorry) / 3
+        val newItemWorry = monkeys[index].operation(itemWorry) / worryLevelReduction
         println("  Monkey performs operation on item, resulting in a worry level of $newItemWorry")
         val testResult = monkeys[index].test(newItemWorry)
         println("  Monkey tests item, resulting in a test result of $testResult")
@@ -69,17 +69,17 @@ fun monkeyTurn(monkeys: List<Monkey>, index: Int) {
     monkeys[index].items.clear()
 }
 
-fun round(monkeysInput: List<Monkey>) {
+fun round(monkeysInput: List<Monkey>, worryLevelReduction: Int) {
     var monkeys = monkeysInput
     for (i in monkeys.indices) {
-        monkeyTurn(monkeys, i)
+        monkeyTurn(monkeys, i, worryLevelReduction)
     }
 }
 
-fun getMonkeyBusiness(monkeys: List<Monkey>, rounds: Int): Int {
+fun getMonkeyBusiness(monkeys: List<Monkey>, rounds: Int, worryLevelReduction: Int): Int {
     // Play the rounds
     repeat (rounds) {
-        round(monkeys)
+        round(monkeys, worryLevelReduction)
     }
 
     println("After $rounds rounds:")
