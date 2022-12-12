@@ -15,7 +15,7 @@ class Day11Test {
 
         assertEquals(8, monkeys.size)
 
-        assertEquals(listOf(65, 78), monkeys[0].items)
+        assertEquals(listOf( 65L, 78L), monkeys[0].items)
         assertEquals(24, monkeys[0].operation(8)) // * 3
         assertTrue(monkeys[0].test(35)) // divisible by 5
         assertFalse(monkeys[0].test(36)) // divisible by 5
@@ -31,8 +31,8 @@ class Day11Test {
         val monkeys = parseInput(lines)
         round(monkeys, 3)
 
-        assertEquals(listOf(20,23,27,26), monkeys[0].items)
-        assertEquals(listOf(2080,25,167,207,401,1046), monkeys[1].items)
+        assertEquals(listOf(20L, 23L, 27L ,26L ), monkeys[0].items)
+        assertEquals(listOf(2080L, 25L, 167L, 207L, 401L, 1046), monkeys[1].items)
         assertTrue( monkeys[2].items.isEmpty())
         assertTrue( monkeys[3].items.isEmpty())
     }
@@ -44,10 +44,10 @@ class Day11Test {
         assertEquals(10605, getMonkeyBusiness(monkeys, 20, 3))
     }
 
-//    @Test fun monkeyBusinessPart2() {
-//        val lines = loadResource("day11-test-input").split("\n")
-//        val monkeys = parseInput(lines)
-//
-//        assertEquals(2713310158, getMonkeyBusiness(monkeys, 10000, 1))
-//    }
+    @Test fun monkeyBusinessPart2() {
+        val lines = loadResource("day11-test-input").split("\n")
+        val monkeys = parseInput(lines)
+
+        assertEquals(2713310158L, getMonkeyBusiness(monkeys, 10000, 1))
+    }
 }
