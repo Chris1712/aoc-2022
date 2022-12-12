@@ -5,6 +5,7 @@ import aoc.util.loadResource
 data class Monkey(val items: MutableList<Long>,
                   val operation: (Long) -> Long,
                   val test: (Long) -> Boolean,
+                  val testNo: Long,
                   val trueDestination: Int,
                   val falseDestination: Int,
                   var inspectionCount: Long = 0)
@@ -14,6 +15,12 @@ fun day11Part1(): Long {
     val lines = loadResource("day11-input").split("\n")
     val monkeys = parseInput(lines)
     return getMonkeyBusiness(monkeys, 20, 3)
+}
+
+fun day11Part2(): Long {
+    val lines = loadResource("day11-input").split("\n")
+    val monkeys = parseInput(lines)
+    return getMonkeyBusiness(monkeys, 10000, 1)
 }
 
 fun parseInput(input: List<String>): List<Monkey> {
@@ -34,14 +41,13 @@ fun parseInput(input: List<String>): List<Monkey> {
             }
         }
 
-        println(input[i+3])
-        val testSr = Regex("""\s+Test: divisible by (\d+)""").find(input[i + 3])!!.destructured
-        val test = { x: Long -> x % testSr.component1().toLong() == 0L }
+        val testVal = Regex("""\s+Test: divisible by (\d+)""").find(input[i + 3])!!.destructured.component1().toLong()
+        val test = { x: Long -> x % testVal == 0L }
 
         val trueDest = Regex("""\s+If true: throw to monkey (\d+)""").find(input[i+4])!!.destructured.component1().toInt()
         val falseDest = Regex("""\s+If false: throw to monkey (\d+)""").find(input[i+5])!!.destructured.component1().toInt()
 
-        monkeys.add(Monkey(items, operation, test, trueDest, falseDest))
+        monkeys.add(Monkey(items, operation, test, testVal, trueDest, falseDest))
     }
     return monkeys
 }
@@ -49,33 +55,29 @@ fun parseInput(input: List<String>): List<Monkey> {
 /**
  * Take turn of monkey with index int, returning a new list of monkeys resulting
  */
-fun monkeyTurn(monkeys: List<Monkey>, index: Int, worryLevelReduction: Int) {
-    println("Monkey $index:")
+fun monkeyTurn(monkeys: List<Monkey>, index: Int, worryLevelReduction: Int, sharedMod: Long) {
     for (i in monkeys[index].items.indices) {
-        val itemWorry = monkeys[index].items[i]
-        println("  Monkey inspects an item with a worry level of $itemWorry")
+        val itemWorry = monkeys[index].items[i] % sharedMod
         val newItemWorry = monkeys[index].operation(itemWorry) / worryLevelReduction.toLong()
-        println("  Monkey performs operation on item, resulting in a worry level of $newItemWorry")
-        val testResult = monkeys[index].test(newItemWorry)
-        println("  Monkey tests item, resulting in a test result of $testResult")
         val dest = if (monkeys[index].test(newItemWorry)) monkeys[index].trueDestination else monkeys[index].falseDestination
-        println("  Item with worry level $newItemWorry is thrown to monkey $dest")
         monkeys[dest].items.add(newItemWorry)
     }
     monkeys[index].inspectionCount += monkeys[index].items.size.toLong()
     monkeys[index].items.clear()
 }
 
-fun round(monkeysInput: List<Monkey>, worryLevelReduction: Int) {
+fun round(monkeysInput: List<Monkey>, worryLevelReduction: Int, sharedMod: Long) {
     var monkeys = monkeysInput
     for (i in monkeys.indices) {
-        monkeyTurn(monkeys, i, worryLevelReduction)
+        monkeyTurn(monkeys, i, worryLevelReduction, sharedMod)
     }
 }
 
 fun getMonkeyBusiness(monkeys: List<Monkey>, rounds: Int, worryLevelReduction: Int): Long {
+    val sharedMod = monkeys.map { it.testNo }.reduce { acc, i -> acc * i } // Keep worries at modulo of product of test vals
+
     repeat (rounds) {
-        round(monkeys, worryLevelReduction)
+        round(monkeys, worryLevelReduction, sharedMod)
     }
 
     println("After $rounds rounds:")

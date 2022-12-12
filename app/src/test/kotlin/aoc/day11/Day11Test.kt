@@ -29,7 +29,7 @@ class Day11Test {
     @Test fun monkeyRound() {
         val lines = loadResource("day11-test-input").split("\n")
         val monkeys = parseInput(lines)
-        round(monkeys, 3)
+        round(monkeys, 3, 96577)
 
         assertEquals(listOf(20L, 23L, 27L ,26L ), monkeys[0].items)
         assertEquals(listOf(2080L, 25L, 167L, 207L, 401L, 1046), monkeys[1].items)
