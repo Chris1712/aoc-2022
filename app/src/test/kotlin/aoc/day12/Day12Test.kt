@@ -46,7 +46,7 @@ class Day12Test {
             "aaaaaza",
         )
 
-        val completedStepGrid = findPath(input)
+        val completedStepGrid = findPath(input, 'S', ::canReach)
 
         assertEquals(0, completedStepGrid[1][3]) // Starting point
         assertEquals(1, completedStepGrid[1][2]) // First step left
@@ -65,7 +65,7 @@ class Day12Test {
             "abdefghi",
         )
 
-        val stepGrid = findPath(input)
+        val stepGrid = findPath(input, 'S', ::canReach)
 
         assertEquals(0, stepGrid[0][0]) // Starting point
         assertEquals(31, stepGrid[2][5]) // E

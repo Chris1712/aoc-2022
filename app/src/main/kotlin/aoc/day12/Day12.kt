@@ -4,12 +4,16 @@ import aoc.util.loadResource
 
 fun day12Part1(): Int {
     val input = loadResource("day12-input").split("\n").filter { it.isNotEmpty() }
-    val stepGrid = findPath(input)
+    val stepGrid = findPath(input, 'S', ::canReach)
     val ePosition = findChar(input, 'E')
     return stepGrid[ePosition.first][ePosition.second]
 }
 
-fun findPath(input: List<String>): List<List<Int>> {
+fun day12Part2(): Int {
+    return 0;
+}
+
+fun findPath(input: List<String>, startChar: Char, canStep: (Char, Char) -> Boolean): List<List<Int>> {
     // grid of minimal steps to each position
     var stepGrid: List<MutableList<Int>> = List(input.size) { MutableList(input[0].length) { -1 } }
     // Start at S
